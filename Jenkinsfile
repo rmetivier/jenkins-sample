@@ -17,12 +17,21 @@ node () {
 			} 
  		} 
 	}
+	
+	stage('Quality check') {
+		withSonarQubeEnv('Sonar') {
+		bat "mvn sonar:sonar"
+		}
+	} 
+	
+	
+	
 	stage ('App-IC - Post build actions') {
-/*
-Please note this is a direct conversion of post-build actions. 
-It may not necessarily work/behave in the same way as post-build actions work.
-A logic review is suggested.
-*/
+	/*
+	Please note this is a direct conversion of post-build actions. 
+	It may not necessarily work/behave in the same way as post-build actions work.
+	A logic review is suggested.
+	*/
 		// Mailer notification
 		step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'richard.metivier@gmail.com', sendToIndividuals: false])
  
